@@ -13,7 +13,7 @@ pipeline {
                 echo "Performing Integration Testing using Selenium WebDriver..."
 
                 script {
-                    def logFilePathNew = "${env.WORKSPACE}\\test-output.log"
+                    def logFilePathNew = "${env.WORKSPACE}/test-output.log"
                 
                 bat """
                         echo 'Starting unit testing using JUnit...' > ${logFilePathNew}
@@ -33,7 +33,7 @@ pipeline {
                             to:'likhithadt2011@gmail.com'
                 }
                 failure {
-                    emailext attachmentsPattern: 'security-output.log',
+                    emailext attachmentsPattern: 'test-output.log',
                             body: 'The Unit Testing and Integration testing completed unsuccessfully. Please check logs!',
                             subject: 'Unit and Integration Testing Status: FAILURE',
                             to:'likhithadt2011@gmail.com'
@@ -50,7 +50,7 @@ pipeline {
                 echo "Performing security scans using Veracode for vulnerabilities..."
 
                 script {
-                    def logFilePath = "${env.WORKSPACE}\\security-output.log"
+                    def logFilePath = "${env.WORKSPACE}/security-output.log"
                 
                 bat """
                         echo 'Starting security scan...' > ${logFilePath}
