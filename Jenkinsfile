@@ -13,9 +13,9 @@ pipeline {
                 echo "Performing Integration Testing using Selenium WebDriver..."
 
                 script {
-                    def logFilePathNew = "${env.WORKSPACE}/test-output.log"
+                    def logFilePathNew = "${env.WORKSPACE}\\test-output.log"
                 
-                sh """
+                bat """
                         echo 'Starting unit testing using JUnit...' > ${logFilePathNew}
                         echo 'Testing the feature working...' >> ${logFilePathNew}
                         echo 'Unit testing completed and no issues found' >> ${logFilePathNew}
@@ -50,9 +50,9 @@ pipeline {
                 echo "Performing security scans using Veracode for vulnerabilities..."
 
                 script {
-                    def logFilePath = "${env.WORKSPACE}/security-output.log"
+                    def logFilePath = "${env.WORKSPACE}\\security-output.log"
                 
-                sh """
+                bat """
                         echo 'Starting security scan...' > ${logFilePath}
                         echo 'Scanning for vulnerabilities...' >> ${logFilePath}
                         echo 'Security scan completed successfully and no vulnerabilities found' >> ${logFilePath} 
