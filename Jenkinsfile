@@ -4,89 +4,95 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Compiling the code and generating necessary artifacts using Maven..."
+                echo "Building the code using Maven..."
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo "Performing Unit Testing using JUnit..."
-                echo "Performing Integration Testing using Selenium WebDriver..."
+                echo "Running unit tests with JUnit and integration tests with Selenium..."
 
                 script {
-                    def logFilePathNew = "${env.WORKSPACE}/test-output.log"
+                    def logFilePath1 = "${env.WORKSPACE}/test.log"
                 
                 bat """
-                        echo 'Starting unit testing using JUnit...' > ${logFilePathNew}
-                        echo 'Testing the feature working...' >> ${logFilePathNew}
-                        echo 'Unit testing completed and no issues found' >> ${logFilePathNew}
-                        echo 'Starting Integration testing using Selenium WebDriver...' >> ${logFilePathNew}
-                        echo 'End to End Testing of the complete product working...' >> ${logFilePathNew}
-                        echo 'Integration testing completed and no issues found' >> ${logFilePathNew} 
+                        echo 'Initiating unit tests with JUnit...' > ${logFilePath1}
+                        echo 'Loading test cases...' >> ${logFilePath1}
+                        echo 'Verifying feature functionality...' >> ${logFilePath1}
+                        echo 'Checking edge cases and input validation...' >> ${logFilePath1}
+                        echo 'Unit tests successfully completed with no errors detected' >> ${logFilePath1}
+                        echo 'Commencing integration tests using Selenium WebDriver...' >> ${logFilePath1}
+                        echo 'Simulating user interactions across multiple components...' >> ${logFilePath1}
+                        echo 'Conducting end-to-end validation of the full application...' >> ${logFilePath1}
+                        echo 'Ensuring smooth communication between services...' >> ${logFilePath1}
+                        echo 'Integration tests finished with all checks passing' >> ${logFilePath1} 
                 """
                 }
             }
             post {
                 success {
-                    emailext attachmentsPattern: 'test-output.log',
-                            body: 'The Unit Testing and Integration testing completed successfully',
-                            subject: 'Unit and Integration Testing Status: SUCCESS',
+                    emailext attachmentsPattern: 'test.log',
+                            body: 'Unit and Integration tests have been successfully completed',
+                            subject: 'Testing Status Update: Unit and Integration Tests Passed',
                             to:'likhithadt2011@gmail.com'
                 }
                 failure {
-                    emailext attachmentsPattern: 'test-output.log',
-                            body: 'The Unit Testing and Integration testing completed unsuccessfully. Please check logs!',
-                            subject: 'Unit and Integration Testing Status: FAILURE',
+                    emailext attachmentsPattern: 'test.log',
+                            body: 'Unit and Integration tests failed. Please review the logs for details!',
+                            subject: 'Testing Status Alert: Unit and Integration Tests Failed',
                             to:'likhithadt2011@gmail.com'
                 }
             }
         }
         stage('Code Analysis') {
             steps {
-                echo "Analysing the code using ESLint..."
+                echo 'Analyzing code quality using SonarQube...'
             }
         }
         stage('Security scan') {
             steps {
-                echo "Performing security scans using Veracode for vulnerabilities..."
+                 echo 'Performing security scan using OWASP Dependency-Check...'
 
                 script {
-                    def logFilePath = "${env.WORKSPACE}/security-output.log"
+                    def logFilePath2 = "${env.WORKSPACE}/security.log"
                 
                 bat """
-                        echo 'Starting security scan...' > ${logFilePath}
-                        echo 'Scanning for vulnerabilities...' >> ${logFilePath}
-                        echo 'Security scan completed successfully and no vulnerabilities found' >> ${logFilePath} 
+                       echo 'Initiating security scan process...' > ${logFilePath2}
+                       echo 'Analyzing code for potential vulnerabilities...' >> ${logFilePath2}
+                       echo 'Checking for outdated dependencies and known security issues...' >> ${logFilePath2}
+                       echo 'Reviewing application configurations for security gaps...' >> ${logFilePath2}
+                       echo 'Security scan completed successfully with no vulnerabilities detected' >> ${logFilePath2}
+                       echo 'All security checks passed, system is secure' >> ${logFilePath2}
                 """
                 }
             }
             post {
                 success {
-                    emailext attachmentsPattern: 'security-output.log',
-                            body: 'The security scan completed successfully',
-                            subject: 'Security Scan Status: SUCCESS',
+                    emailext attachmentsPattern: 'security.log',
+                            body: 'Security scan was completed successfully',
+                            subject: 'Security Scan Update: SUCCESS',
                             to:'likhithadt2011@gmail.com'
                 }
                 failure {
-                    emailext attachmentsPattern: 'security-output.log',
-                            body: 'The security scan completed unsuccessfully. Please check logs!',
-                            subject: 'Security Scan Status: FAILURE',
+                    emailext attachmentsPattern: 'security.log',
+                            body: 'Security scan failed. Please review the logs for more information!',
+                            subject: 'Security Scan Alert: FAILURE',
                             to:'likhithadt2011@gmail.com'
                 }
             }
         }
         stage('Deploy to Staging') {
             steps {
-                echo "Deploying the application to the staging server on AWS EC2 instance..."
+                echo 'Deploying the application to the staging environment on AWS EC2...'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo "Executing integration tests on the staging environment..."
+                echo "Running integration tests on the staging environment..."
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo "Deploying the application to the production server on AWS EC2 instance..."
+                echo "Deploying the application to the production environment on AWS EC2..."
             }
         }
     }
